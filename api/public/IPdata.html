@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>IP data</title>
+  </head>
+  <body>
+    <h1>IP data</h1>
+    <script>
+        async function getIpData() {
+            const url = `http://ip-api.com/json/reddit.com`
+            const optionsFetch = {
+                headers: {
+                    'accept': 'application/json'
+                }
+            }
+            const data = await fetch (url, optionsFetch)
+            const jsonData = await data.json()
+
+            const usefullData = []
+            usefullData.push(jsonData.status, jsonData.query, jsonData.city, jsonData.zip, jsonData.country, jsonData.lat, jsonData.lon)
+
+            const status = jsonData.status
+            const query = jsonData.query
+            const city = jsonData.city
+            const zip = jsonData.zip
+            const country = jsonData.country
+            const lat = jsonData.lat
+            const lon = jsonData.lon
+
+            document.getElementById('status').textContent = status
+            document.getElementById('query').textContent = query
+            document.getElementById('city').textContent = city
+            document.getElementById('zip').textContent = zip
+            document.getElementById('country').textContent =country
+            document.getElementById('lat').textContent = lat
+            document.getElementById('lon').textContent = lon
+            
+            const options = {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json'
+                },
+                body: JSON.stringify(usefullData)
+            }
+            const response = await fetch('/ip', options)
+            const json = await response.json()
+            console.log(json)
+        }
+        getIpData()
+    </script>
+      <p>Status: <span id="status"></span><br /></p>
+      <p>IP: <span id="query"></span><br /></p>
+      <p>City: <span id="city"></span><br /></p>
+      <p>Zip: <span id="zip"></span><br /></p>
+      <p>Country: <span id="country"></span><br /></p>
+      <p>Latitude: <span id="lat"></span><br /></p>
+      <p>Longitude: <span id="lon"></span><br /></p>
+  </body>
+</html>
